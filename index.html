@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jeremy Hotz — Digital Product Manager</title>
+<meta name="description" content="Jeremy Hotz — Digital Product Manager & Web Developer. Portfolio and resume." />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  :root {
+    --ink: #1a1f2e;
+    --accent: #4a6fa5;
+    --accent-light: #7eb8f7;
+    --bg: #f2f1ed;
+    --card: #ffffff;
+    --muted: #666;
+    --border: #e6e5e1;
+  }
+  * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; color: #222; background: var(--bg); line-height: 1.6; }
+
+  header.hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 4rem 1.5rem 3.5rem;
+    text-align: center;
+  }
+  .hero-name { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.5px; }
+  .hero-tagline { font-size: 1.05rem; color: #9da8bc; letter-spacing: 0.03em; text-transform: uppercase; margin-top: 0.5rem; }
+  .hero-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.5rem; margin-top: 1.5rem; font-size: 0.9rem; }
+  .hero-contact a { color: var(--accent-light); text-decoration: none; }
+  .hero-contact a:hover { text-decoration: underline; }
+  .hero-contact span { color: #c2c9d6; }
+
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: #fff; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: center; gap: 2rem;
+    padding: 0.9rem 1rem; flex-wrap: wrap;
+  }
+  nav a { color: var(--ink); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  nav a:hover { color: var(--accent); }
+
+  main { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
+  section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  h2.section-title {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink); border-bottom: 2px solid var(--ink); display: inline-block;
+    padding-bottom: 6px; margin-bottom: 1.75rem;
+  }
+
+  .job { margin-bottom: 1.75rem; }
+  .job:last-child { margin-bottom: 0; }
+  .job-header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .job-company { font-size: 1.1rem; font-weight: 600; color: var(--ink); }
+  .job-role { font-size: 0.95rem; color: var(--accent); }
+  .job-dates { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
+  ul.bullets { list-style: none; }
+  ul.bullets li { font-size: 0.95rem; color: #333; padding-left: 1.2em; position: relative; margin-bottom: 0.4rem; }
+  ul.bullets li::before { content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+  .approach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+  .approach-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; }
+  .approach-card p { font-size: 0.9rem; color: #333; }
+  .approach-tools { margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted); }
+  .approach-tools strong { color: var(--ink); }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .skill-group-label { font-size: 0.8rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+  .skill-list { font-size: 0.9rem; color: #333; }
+
+  .edu-item, .lead-item { margin-bottom: 1.25rem; }
+  .edu-item:last-child, .lead-item:last-child { margin-bottom: 0; }
+  .edu-school, .lead-org { font-size: 1rem; font-weight: 600; color: var(--ink); }
+  .edu-program, .lead-role { font-size: 0.9rem; color: var(--accent); }
+  .edu-dates, .lead-dates { font-size: 0.85rem; color: var(--muted); }
+
+  footer { text-align: center; padding: 2.5rem 1.5rem 3rem; color: var(--muted); font-size: 0.85rem; }
+  footer a { color: var(--accent); }
+
+  @media print {
+    nav { display: none; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-name">Jeremy Hotz</div>
+  <div class="hero-tagline">Digital Product Manager &amp; Web Developer</div>
+  <div class="hero-contact">
+    <span>Loveland, CO</span>
+    <a href="mailto:jhotz2112@gmail.com">jhotz2112@gmail.com</a>
+    <span>(970) 222.7184</span>
+    <a href="https://github.com/jhotz2112" target="_blank" rel="noopener">github.com/jhotz2112</a>
+    <a href="https://www.linkedin.com/in/jeremyhotz/" target="_blank" rel="noopener">linkedin.com/in/jeremyhotz</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#experience">Experience</a>
+  <a href="#approach">PM Approach</a>
+  <a href="#skills">Skills</a>
+  <a href="#leadership">Leadership</a>
+  <a href="#education">Education</a>
+</nav>
+
+<main>
+
+  <section id="experience">
+    <h2 class="section-title">Professional Experience</h2>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <div class="job-company">Miles Partnership</div>
+          <div class="job-role">Digital Product Manager</div>
+        </div>
+        <div class="job-dates">10/2023 – 07/2026</div>
+      </div>
+      <ul class="bullets">
+        <li>Served as primary liaison between development, QA, design, and business stakeholders, owning the product backlog, roadmap, and release process across multiple concurrent client initiatives.</li>
+        <li>Maintained a clean, prioritized backlog aligned with business goals and sprint capacity, writing detailed user stories and acceptance criteria, and documenting assumptions, constraints, and decisions for traceability.</li>
+        <li>Translated stakeholder and user needs into concise, technically interpretable requirements, facilitating wireframing sessions and stakeholder demos to validate direction before engineering investment.</li>
+        <li>Prepared teams for sprint and feature planning with refined, estimated, and prioritized stories, clarifying requirements during sprints and reviewing completed work against acceptance criteria before release.</li>
+        <li>Evaluated initiatives using ROI, adoption potential, and operational efficiency metrics, developing business cases for technology investments including AI integrations, mapping solutions, and platform decisions.</li>
+        <li>Led workshops and brainstorming sessions with stakeholders to gather input, validate concepts, and ensure feedback was captured and reflected in the backlog and roadmap.</li>
+        <li>Prepared release notes, user documentation, and training materials for new features, coordinating demos and knowledge transfer sessions across internal teams and clients.</li>
+        <li>Applied Agile, Scrum, and Waterfall methodologies as appropriate, monitoring delivery performance and continuously refining processes to balance speed, quality, and predictability.</li>
+        <li>Mentored newly hired product managers and account specialists on Agile practices, backlog hygiene, and client communication standards.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <div class="job-company">Miles Partnership</div>
+          <div class="job-role">Web Developer</div>
+        </div>
+        <div class="job-dates">06/2022 – 10/2023</div>
+      </div>
+      <ul class="bullets">
+        <li>Built and maintained accessible, data-driven websites for 150+ clients using PHP, Twig, CSS, JavaScript, and SQL within Drupal-based CMS environments.</li>
+        <li>Contributed to two ground-up website builds for San Francisco Travel and Savannah, spanning discovery, wireframing, architecture, and feature development.</li>
+        <li>Integrated third-party services, APIs, and data sources into client platforms to support marketing measurement and business intelligence goals.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <div class="job-company">KoKo PFT LLC</div>
+          <div class="job-role">Software Engineer / Product Lead</div>
+        </div>
+        <div class="job-dates">02/2022 – 06/2022</div>
+      </div>
+      <ul class="bullets">
+        <li>Served as product lead for a patient-facing and physician-facing PWA for at-home COPD monitoring, owning discovery, scoping, backlog management, and delivery in Jira within a regulated environment.</li>
+        <li>Wrote detailed product requirements and acceptance criteria, coordinating sprint execution across developers and a firmware engineer to ship a functioning medical device product.</li>
+        <li>Performed hands-on testing and validation in staging environments, collaborating with the team on acceptance tests and providing prompt feedback on defects before release.</li>
+        <li>Architected integration between the Google Chrome WebUSB API and a Spirometer device, updating device firmware to enable reliable real-time patient data collection.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <div class="job-company">KoKo PFT LLC</div>
+          <div class="job-role">Full-Stack Software Engineer</div>
+        </div>
+        <div class="job-dates">10/2021 – 02/2022</div>
+      </div>
+      <ul class="bullets">
+        <li>Compiled and debugged 25-year-old pulmonary function testing legacy code and updated frontend C# and VB6 code; managed beta and production builds via Jenkins automation server.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="approach">
+    <h2 class="section-title">Product Management Approach</h2>
+    <div class="approach-grid">
+      <div class="approach-card">
+        <p>Backlog ownership and sprint execution across Agile, Scrum, and Waterfall environments, including story writing, acceptance criteria, sprint planning, refinement, retrospectives, and velocity tracking.</p>
+      </div>
+      <div class="approach-card">
+        <p>Stakeholder engagement throughout the product lifecycle, from discovery and wireframing through release, post-launch feedback, and iteration.</p>
+      </div>
+      <div class="approach-card">
+        <p>Business case development and ROI evaluation, quantifying initiative value before committing engineering resources.</p>
+      </div>
+      <div class="approach-card">
+        <p>Hands-on QA and validation in staging environments, reviewing completed work against acceptance criteria before every release.</p>
+      </div>
+      <div class="approach-card">
+        <p>Technical fluency enabling deep collaboration with engineering and architecture teams on feasibility, trade-offs, and implementation decisions.</p>
+      </div>
+    </div>
+    <div class="approach-tools"><strong>Methods &amp; Tools:</strong> Agile, Scrum, Kanban, Waterfall, Jira, Confluence, Productboard, Figma, Wrike, SQL, WCAG 2.2 AA, UsableNet</div>
+  </section>
+
+  <section id="skills">
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-label">CMS &amp; Platforms</div>
+        <div class="skill-list">WordPress · Drupal</div>
+      </div>
+      <div>
+        <div class="skill-group-label">Languages &amp; Frameworks</div>
+        <div class="skill-list">PHP · JavaScript/ES6 · TypeScript · React.js · Node.js · HTML5/CSS3 · Twig · C#</div>
+      </div>
+      <div>
+        <div class="skill-group-label">Integrations &amp; APIs</div>
+        <div class="skill-list">Mapbox · Google Maps API · Weglot · MindTrip AI · AWS · PostgreSQL</div>
+      </div>
+      <div>
+        <div class="skill-group-label">Data &amp; Accessibility</div>
+        <div class="skill-list">SQL · UsableNet · WCAG 2.2 AA · SEO/Analytics</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leadership">
+    <h2 class="section-title">Leadership &amp; Volunteering</h2>
+    <div class="lead-item">
+      <div class="lead-org">Miles Partnership</div>
+      <div class="lead-role">Internal Mentor, Product &amp; Account Teams</div>
+      <div class="lead-dates">2023 – Present</div>
+      <ul class="bullets" style="margin-top: 0.5rem;">
+        <li>Mentor newly hired product managers and account specialists on Agile workflows, backlog hygiene, and client communication standards.</li>
+      </ul>
+    </div>
+    <div class="lead-item">
+      <div class="lead-org">Fort Collins Rescue Mission</div>
+      <div class="lead-role">Volunteer</div>
+      <div class="lead-dates">Ongoing</div>
+      <ul class="bullets" style="margin-top: 0.5rem;">
+        <li>Provide direct support services to individuals and families experiencing homelessness in the Northern Colorado community.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2 class="section-title">Education</h2>
+    <div class="edu-item">
+      <div class="edu-school">General Assembly</div>
+      <div class="edu-program">Software Engineering Immersive</div>
+      <div class="edu-dates">05/2021 – 08/2021</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-school">Recording Connection</div>
+      <div class="edu-program">Audio Engineering Immersive</div>
+      <div class="edu-dates">10/2019 – 06/2020</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-school">Colorado State University</div>
+      <div class="edu-program">General Education</div>
+      <div class="edu-dates">09/2010 – 05/2012</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a href="mailto:jhotz2112@gmail.com">jhotz2112@gmail.com</a> · <a href="https://www.linkedin.com/in/jeremyhotz/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/jhotz2112" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+</body>
+</html>
