@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
 <title>Jeremy Hotz: Digital Product Manager</title>
 <meta name="description" content="Jeremy Hotz: Digital Product Manager. Portfolio and resume." />
 <style>
@@ -125,7 +126,6 @@
   .job-role { font-size: 0.95rem; color: var(--accent); }
   .job-dates { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
   .job-bullets-wrap { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
-  .job.open .job-bullets-wrap { max-height: 900px; }
   ul.bullets { list-style: none; padding: 0 1.25rem 1.15rem; }
   ul.bullets li { font-size: 0.95rem; color: #333; padding-left: 1.2em; position: relative; margin-bottom: 0.4rem; }
   ul.bullets li::before { content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
@@ -411,10 +411,25 @@
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <script>
-  // Accordion for job entries
-  document.querySelectorAll('.job-header').forEach(function (header) {
-    header.addEventListener('click', function () {
-      header.closest('.job').classList.toggle('open');
+  // Accordion for job entries (JS-computed height so long content never clips)
+  function setJobHeight(job) {
+    var wrap = job.querySelector('.job-bullets-wrap');
+    wrap.style.maxHeight = job.classList.contains('open') ? wrap.scrollHeight + 'px' : '0px';
+  }
+  var allJobs = document.querySelectorAll('.job');
+  allJobs.forEach(function (job) {
+    setJobHeight(job);
+    job.querySelector('.job-header').addEventListener('click', function () {
+      job.classList.toggle('open');
+      setJobHeight(job);
+    });
+  });
+  window.addEventListener('load', function () {
+    allJobs.forEach(setJobHeight);
+  });
+  window.addEventListener('resize', function () {
+    allJobs.forEach(function (job) {
+      if (job.classList.contains('open')) setJobHeight(job);
     });
   });
 
