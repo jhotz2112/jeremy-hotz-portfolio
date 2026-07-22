@@ -11,23 +11,64 @@
     --ink: #1a1f2e;
     --accent: #4a6fa5;
     --accent-light: #7eb8f7;
+    --accent-soft: #eef3fa;
     --bg: #f2f1ed;
     --card: #ffffff;
     --muted: #666;
     --border: #e6e5e1;
+    --good: #3fb27f;
   }
   * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body { font-family: 'Inter', sans-serif; color: #222; background: var(--bg); line-height: 1.6; }
+
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    z-index: 100; transition: width 0.1s ease-out;
+  }
 
   header.hero {
     background: var(--ink);
     color: #fff;
     padding: 4rem 1.5rem 3.5rem;
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
+  header.hero::before {
+    content: "";
+    position: absolute; inset: -50%;
+    background: radial-gradient(circle at 30% 20%, rgba(74,111,165,0.35), transparent 55%),
+                radial-gradient(circle at 75% 70%, rgba(126,184,247,0.18), transparent 50%);
+    animation: drift 16s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes drift {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(2%, 3%) scale(1.08); }
+  }
+  .hero-inner { position: relative; z-index: 1; }
   .hero-name { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.5px; }
   .hero-tagline { font-size: 1.05rem; color: #9da8bc; letter-spacing: 0.03em; text-transform: uppercase; margin-top: 0.5rem; }
+
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 1.25rem; padding: 0.4rem 0.9rem;
+    background: rgba(63,178,127,0.12); border: 1px solid rgba(63,178,127,0.4);
+    border-radius: 999px; font-size: 0.8rem; color: #b7f0d6;
+  }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--good);
+    box-shadow: 0 0 0 rgba(63,178,127,0.6);
+    animation: pulse 2s ease-out infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(63,178,127,0.55); }
+    70%  { box-shadow: 0 0 0 8px rgba(63,178,127,0); }
+    100% { box-shadow: 0 0 0 0 rgba(63,178,127,0); }
+  }
+
   .hero-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.5rem; margin-top: 1.5rem; font-size: 0.9rem; }
   .hero-contact a { color: var(--accent-light); text-decoration: none; }
   .hero-contact a:hover { text-decoration: underline; }
@@ -38,9 +79,16 @@
     background: #fff; border-bottom: 1px solid var(--border);
     display: flex; justify-content: center; gap: 2rem;
     padding: 0.9rem 1rem; flex-wrap: wrap;
+    transition: box-shadow 0.25s ease;
   }
-  nav a { color: var(--ink); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  nav.scrolled { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  nav a {
+    color: var(--ink); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase; padding-bottom: 4px;
+    border-bottom: 2px solid transparent; transition: color 0.2s ease, border-color 0.2s ease;
+  }
   nav a:hover { color: var(--accent); }
+  nav a.active { color: var(--accent); border-color: var(--accent); }
 
   main { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
   .intro { padding: 3rem 0 2.5rem; border-bottom: 1px solid var(--border); }
@@ -54,25 +102,56 @@
     padding-bottom: 6px; margin-bottom: 1.75rem;
   }
 
-  .job { margin-bottom: 1.75rem; }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+  .job {
+    margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--card); overflow: hidden; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
   .job:last-child { margin-bottom: 0; }
-  .job-header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .job:hover { border-color: var(--accent-light); box-shadow: 0 6px 20px rgba(26,31,46,0.06); }
+  .job-header {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+    padding: 1.1rem 1.25rem; cursor: pointer; user-select: none;
+  }
+  .job-header-main { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; flex: 1; }
+  .job-chevron {
+    color: var(--muted); font-size: 0.75rem; transition: transform 0.25s ease; margin-left: 0.5rem;
+  }
+  .job.open .job-chevron { transform: rotate(90deg); color: var(--accent); }
   .job-company { font-size: 1.1rem; font-weight: 600; color: var(--ink); }
   .job-role { font-size: 0.95rem; color: var(--accent); }
   .job-dates { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
-  ul.bullets { list-style: none; }
+  .job-bullets-wrap { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .job.open .job-bullets-wrap { max-height: 900px; }
+  ul.bullets { list-style: none; padding: 0 1.25rem 1.15rem; }
   ul.bullets li { font-size: 0.95rem; color: #333; padding-left: 1.2em; position: relative; margin-bottom: 0.4rem; }
   ul.bullets li::before { content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .job-hint { font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 0.75rem; }
 
   .approach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
-  .approach-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; }
+  .approach-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .approach-card:hover {
+    transform: translateY(-4px); border-color: var(--accent-light);
+    box-shadow: 0 10px 24px rgba(26,31,46,0.08);
+  }
   .approach-card p { font-size: 0.9rem; color: #333; }
   .approach-tools { margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted); }
   .approach-tools strong { color: var(--ink); }
 
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-  .skill-group-label { font-size: 0.8rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
-  .skill-list { font-size: 0.9rem; color: #333; }
+  .skill-group-label { font-size: 0.8rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    font-size: 0.82rem; color: var(--ink); background: var(--accent-soft);
+    border: 1px solid var(--border); border-radius: 999px; padding: 0.3rem 0.75rem;
+    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+  .skill-tag:hover { transform: translateY(-2px); background: var(--accent); color: #fff; }
 
   .edu-item, .lead-item { margin-bottom: 1.25rem; }
   .edu-item:last-child, .lead-item:last-child { margin-bottom: 0; }
@@ -83,27 +162,46 @@
   footer { text-align: center; padding: 2.5rem 1.5rem 3rem; color: var(--muted); font-size: 0.85rem; }
   footer a { color: var(--accent); }
 
+  .back-to-top {
+    position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 20;
+    width: 42px; height: 42px; border-radius: 50%; border: none;
+    background: var(--ink); color: #fff; font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  }
+  .back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .back-to-top:hover { background: var(--accent); }
+
   @media print {
-    nav { display: none; }
+    nav, .back-to-top, .scroll-progress { display: none; }
     body { background: #fff; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .job-bullets-wrap { max-height: none !important; }
   }
 </style>
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress"></div>
+
 <header class="hero">
-  <div class="hero-name">Jeremy Hotz</div>
-  <div class="hero-tagline">Digital Product Manager</div>
-  <div class="hero-contact">
-    <span>Loveland, CO</span>
-    <a href="mailto:jhotz2112@gmail.com">jhotz2112@gmail.com</a>
-    <span>(970) 222.7184</span>
-    <a href="https://github.com/jhotz2112" target="_blank" rel="noopener">github.com/jhotz2112</a>
-    <a href="https://www.linkedin.com/in/jeremyhotz/" target="_blank" rel="noopener">linkedin.com/in/jeremyhotz</a>
+  <div class="hero-inner">
+    <div class="hero-name">Jeremy Hotz</div>
+    <div class="hero-tagline">Digital Product Manager</div>
+    <div class="status-badge"><span class="status-dot"></span> Open to new opportunities</div>
+    <div class="hero-contact">
+      <span>Loveland, CO</span>
+      <a href="mailto:jhotz2112@gmail.com">jhotz2112@gmail.com</a>
+      <span>(970) 222.7184</span>
+      <a href="https://github.com/jhotz2112" target="_blank" rel="noopener">github.com/jhotz2112</a>
+      <a href="https://www.linkedin.com/in/jeremyhotz/" target="_blank" rel="noopener">linkedin.com/in/jeremyhotz</a>
+    </div>
   </div>
 </header>
 
-<nav>
+<nav id="mainNav">
   <a href="#experience">Experience</a>
   <a href="#approach">PM Approach</a>
   <a href="#skills">Skills</a>
@@ -113,81 +211,90 @@
 
 <main>
 
-  <section class="intro">
+  <section class="intro reveal">
     <p>I'm a product manager who can actually build the thing. I started as a developer, writing PHP, Twig, and JavaScript in production CMS environments, before moving into product management, so I speak engineering's language fluently instead of translating through it.</p>
     <p>That background means fewer handoffs get lost in translation: I can read a pull request, reason about technical trade-offs alongside an engineering team, and still own the roadmap, stakeholder relationships, and business case that make a product succeed.</p>
   </section>
 
-  <section id="experience">
+  <section id="experience" class="reveal">
     <h2 class="section-title">Professional Experience</h2>
 
-    <div class="job">
+    <div class="job open">
       <div class="job-header">
-        <div>
+        <div class="job-header-main">
           <div class="job-company">Miles Partnership</div>
           <div class="job-role">Digital Product Manager</div>
         </div>
-        <div class="job-dates">10/2023 – 07/2026</div>
+        <div class="job-dates">10/2023 – 07/2026<span class="job-chevron">▶</span></div>
       </div>
-      <ul class="bullets">
-        <li>Served as primary liaison between development, QA, design, and business stakeholders, owning the product backlog, roadmap, and release process across multiple concurrent client initiatives.</li>
-        <li>Maintained a clean, prioritized backlog aligned with business goals and sprint capacity, writing detailed user stories and acceptance criteria, and documenting assumptions, constraints, and decisions for traceability.</li>
-        <li>Translated stakeholder and user needs into concise, technically interpretable requirements, facilitating wireframing sessions and stakeholder demos to validate direction before engineering investment.</li>
-        <li>Prepared teams for sprint and feature planning with refined, estimated, and prioritized stories, clarifying requirements during sprints and reviewing completed work against acceptance criteria before release.</li>
-        <li>Evaluated initiatives using ROI, adoption potential, and operational efficiency metrics, developing business cases for technology investments including AI integrations, mapping solutions, and platform decisions.</li>
-        <li>Led workshops and brainstorming sessions with stakeholders to gather input, validate concepts, and ensure feedback was captured and reflected in the backlog and roadmap.</li>
-        <li>Prepared release notes, user documentation, and training materials for new features, coordinating demos and knowledge transfer sessions across internal teams and clients.</li>
-        <li>Applied Agile, Scrum, and Waterfall methodologies as appropriate, monitoring delivery performance and continuously refining processes to balance speed, quality, and predictability.</li>
-        <li>Mentored newly hired product managers and account specialists on Agile practices, backlog hygiene, and client communication standards.</li>
-      </ul>
+      <div class="job-bullets-wrap">
+        <ul class="bullets">
+          <li>Served as primary liaison between development, QA, design, and business stakeholders, owning the product backlog, roadmap, and release process across multiple concurrent client initiatives.</li>
+          <li>Maintained a clean, prioritized backlog aligned with business goals and sprint capacity, writing detailed user stories and acceptance criteria, and documenting assumptions, constraints, and decisions for traceability.</li>
+          <li>Translated stakeholder and user needs into concise, technically interpretable requirements, facilitating wireframing sessions and stakeholder demos to validate direction before engineering investment.</li>
+          <li>Prepared teams for sprint and feature planning with refined, estimated, and prioritized stories, clarifying requirements during sprints and reviewing completed work against acceptance criteria before release.</li>
+          <li>Evaluated initiatives using ROI, adoption potential, and operational efficiency metrics, developing business cases for technology investments including AI integrations, mapping solutions, and platform decisions.</li>
+          <li>Led workshops and brainstorming sessions with stakeholders to gather input, validate concepts, and ensure feedback was captured and reflected in the backlog and roadmap.</li>
+          <li>Prepared release notes, user documentation, and training materials for new features, coordinating demos and knowledge transfer sessions across internal teams and clients.</li>
+          <li>Applied Agile, Scrum, and Waterfall methodologies as appropriate, monitoring delivery performance and continuously refining processes to balance speed, quality, and predictability.</li>
+          <li>Mentored newly hired product managers and account specialists on Agile practices, backlog hygiene, and client communication standards.</li>
+        </ul>
+      </div>
     </div>
 
     <div class="job">
       <div class="job-header">
-        <div>
+        <div class="job-header-main">
           <div class="job-company">Miles Partnership</div>
           <div class="job-role">Web Developer</div>
         </div>
-        <div class="job-dates">06/2022 – 10/2023</div>
+        <div class="job-dates">06/2022 – 10/2023<span class="job-chevron">▶</span></div>
       </div>
-      <ul class="bullets">
-        <li>Built and maintained accessible, data-driven websites for 150+ clients using PHP, Twig, CSS, JavaScript, and SQL within Drupal-based CMS environments.</li>
-        <li>Contributed to two ground-up website builds for San Francisco Travel and Savannah, spanning discovery, wireframing, architecture, and feature development.</li>
-        <li>Integrated third-party services, APIs, and data sources into client platforms to support marketing measurement and business intelligence goals.</li>
-      </ul>
+      <div class="job-bullets-wrap">
+        <ul class="bullets">
+          <li>Built and maintained accessible, data-driven websites for 150+ clients using PHP, Twig, CSS, JavaScript, and SQL within Drupal-based CMS environments.</li>
+          <li>Contributed to two ground-up website builds for San Francisco Travel and Savannah, spanning discovery, wireframing, architecture, and feature development.</li>
+          <li>Integrated third-party services, APIs, and data sources into client platforms to support marketing measurement and business intelligence goals.</li>
+        </ul>
+      </div>
     </div>
 
     <div class="job">
       <div class="job-header">
-        <div>
+        <div class="job-header-main">
           <div class="job-company">KoKo PFT LLC</div>
           <div class="job-role">Software Engineer / Product Lead</div>
         </div>
-        <div class="job-dates">02/2022 – 06/2022</div>
+        <div class="job-dates">02/2022 – 06/2022<span class="job-chevron">▶</span></div>
       </div>
-      <ul class="bullets">
-        <li>Served as product lead for a patient-facing and physician-facing PWA for at-home COPD monitoring, owning discovery, scoping, backlog management, and delivery in Jira within a regulated environment.</li>
-        <li>Wrote detailed product requirements and acceptance criteria, coordinating sprint execution across developers and a firmware engineer to ship a functioning medical device product.</li>
-        <li>Performed hands-on testing and validation in staging environments, collaborating with the team on acceptance tests and providing prompt feedback on defects before release.</li>
-        <li>Architected integration between the Google Chrome WebUSB API and a Spirometer device, updating device firmware to enable reliable real-time patient data collection.</li>
-      </ul>
+      <div class="job-bullets-wrap">
+        <ul class="bullets">
+          <li>Served as product lead for a patient-facing and physician-facing PWA for at-home COPD monitoring, owning discovery, scoping, backlog management, and delivery in Jira within a regulated environment.</li>
+          <li>Wrote detailed product requirements and acceptance criteria, coordinating sprint execution across developers and a firmware engineer to ship a functioning medical device product.</li>
+          <li>Performed hands-on testing and validation in staging environments, collaborating with the team on acceptance tests and providing prompt feedback on defects before release.</li>
+          <li>Architected integration between the Google Chrome WebUSB API and a Spirometer device, updating device firmware to enable reliable real-time patient data collection.</li>
+        </ul>
+      </div>
     </div>
 
     <div class="job">
       <div class="job-header">
-        <div>
+        <div class="job-header-main">
           <div class="job-company">KoKo PFT LLC</div>
           <div class="job-role">Full-Stack Software Engineer</div>
         </div>
-        <div class="job-dates">10/2021 – 02/2022</div>
+        <div class="job-dates">10/2021 – 02/2022<span class="job-chevron">▶</span></div>
       </div>
-      <ul class="bullets">
-        <li>Compiled and debugged 25-year-old pulmonary function testing legacy code and updated frontend C# and VB6 code; managed beta and production builds via Jenkins automation server.</li>
-      </ul>
+      <div class="job-bullets-wrap">
+        <ul class="bullets">
+          <li>Compiled and debugged 25-year-old pulmonary function testing legacy code and updated frontend C# and VB6 code; managed beta and production builds via Jenkins automation server.</li>
+        </ul>
+      </div>
     </div>
+    <div class="job-hint">Click a role to expand the details</div>
   </section>
 
-  <section id="approach">
+  <section id="approach" class="reveal">
     <h2 class="section-title">Product Management Approach</h2>
     <div class="approach-grid">
       <div class="approach-card">
@@ -209,35 +316,59 @@
     <div class="approach-tools"><strong>Methods &amp; Tools:</strong> Agile, Scrum, Kanban, Waterfall, Jira, Confluence, Productboard, Figma, Wrike, SQL, WCAG 2.2 AA, UsableNet</div>
   </section>
 
-  <section id="skills">
+  <section id="skills" class="reveal">
     <h2 class="section-title">Technical Skills</h2>
     <div class="skills-grid">
       <div>
         <div class="skill-group-label">CMS &amp; Platforms</div>
-        <div class="skill-list">WordPress · Drupal</div>
+        <div class="skill-tags">
+          <span class="skill-tag">WordPress</span>
+          <span class="skill-tag">Drupal</span>
+        </div>
       </div>
       <div>
         <div class="skill-group-label">Languages &amp; Frameworks</div>
-        <div class="skill-list">PHP · JavaScript/ES6 · TypeScript · React.js · Node.js · HTML5/CSS3 · Twig · C#</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PHP</span>
+          <span class="skill-tag">JavaScript/ES6</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">React.js</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">HTML5/CSS3</span>
+          <span class="skill-tag">Twig</span>
+          <span class="skill-tag">C#</span>
+        </div>
       </div>
       <div>
         <div class="skill-group-label">Integrations &amp; APIs</div>
-        <div class="skill-list">Mapbox · Google Maps API · Weglot · MindTrip AI · AWS · PostgreSQL</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Mapbox</span>
+          <span class="skill-tag">Google Maps API</span>
+          <span class="skill-tag">Weglot</span>
+          <span class="skill-tag">MindTrip AI</span>
+          <span class="skill-tag">AWS</span>
+          <span class="skill-tag">PostgreSQL</span>
+        </div>
       </div>
       <div>
         <div class="skill-group-label">Data &amp; Accessibility</div>
-        <div class="skill-list">SQL · UsableNet · WCAG 2.2 AA · SEO/Analytics</div>
+        <div class="skill-tags">
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">UsableNet</span>
+          <span class="skill-tag">WCAG 2.2 AA</span>
+          <span class="skill-tag">SEO/Analytics</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="leadership">
+  <section id="leadership" class="reveal">
     <h2 class="section-title">Leadership &amp; Volunteering</h2>
     <div class="lead-item">
       <div class="lead-org">Miles Partnership</div>
       <div class="lead-role">Internal Mentor, Product &amp; Account Teams</div>
       <div class="lead-dates">2023 – Present</div>
-      <ul class="bullets" style="margin-top: 0.5rem;">
+      <ul class="bullets" style="margin-top: 0.5rem; padding-left: 0;">
         <li>Mentor newly hired product managers and account specialists on Agile workflows, backlog hygiene, and client communication standards.</li>
       </ul>
     </div>
@@ -245,13 +376,13 @@
       <div class="lead-org">Fort Collins Rescue Mission</div>
       <div class="lead-role">Volunteer</div>
       <div class="lead-dates">Ongoing</div>
-      <ul class="bullets" style="margin-top: 0.5rem;">
+      <ul class="bullets" style="margin-top: 0.5rem; padding-left: 0;">
         <li>Provide direct support services to individuals and families experiencing homelessness in the Northern Colorado community.</li>
       </ul>
     </div>
   </section>
 
-  <section id="education">
+  <section id="education" class="reveal">
     <h2 class="section-title">Education</h2>
     <div class="edu-item">
       <div class="edu-school">General Assembly</div>
@@ -275,6 +406,65 @@
 <footer>
   <a href="mailto:jhotz2112@gmail.com">jhotz2112@gmail.com</a> · <a href="https://www.linkedin.com/in/jeremyhotz/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/jhotz2112" target="_blank" rel="noopener">GitHub</a>
 </footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<script>
+  // Accordion for job entries
+  document.querySelectorAll('.job-header').forEach(function (header) {
+    header.addEventListener('click', function () {
+      header.closest('.job').classList.toggle('open');
+    });
+  });
+
+  // Scroll reveal
+  var revealEls = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(function (el) { observer.observe(el); });
+
+  // Nav scroll shadow + scrollspy + progress bar + back-to-top
+  var nav = document.getElementById('mainNav');
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var sections = navLinks.map(function (link) {
+    return document.querySelector(link.getAttribute('href'));
+  });
+  var progressBar = document.getElementById('scrollProgress');
+  var backToTop = document.getElementById('backToTop');
+
+  function onScroll() {
+    var scrollY = window.scrollY || window.pageYOffset;
+
+    nav.classList.toggle('scrolled', scrollY > 8);
+    backToTop.classList.toggle('visible', scrollY > 500);
+
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+
+    var current = null;
+    sections.forEach(function (sec, i) {
+      if (sec && sec.getBoundingClientRect().top <= 120) {
+        current = i;
+      }
+    });
+    navLinks.forEach(function (link, i) {
+      link.classList.toggle('active', i === current);
+    });
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  backToTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
 
 </body>
 </html>
