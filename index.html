@@ -6,6 +6,22 @@
 <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
 <title>Jeremy Hotz: Digital Product Manager</title>
 <meta name="description" content="Jeremy Hotz: Digital Product Manager. Portfolio and resume." />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
+<meta property="og:type" content="profile" />
+<meta property="og:title" content="Jeremy Hotz: Digital Product Manager" />
+<meta property="og:description" content="Product manager with a hands-on developer background. Backlog ownership, stakeholder management, and technical fluency across the full product lifecycle. Open to new opportunities." />
+<meta property="og:url" content="https://jhotz2112.github.io/jeremy-hotz-portfolio/" />
+<meta property="og:image" content="https://jhotz2112.github.io/jeremy-hotz-portfolio/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Jeremy Hotz: Digital Product Manager" />
+<meta name="twitter:description" content="Product manager with a hands-on developer background. Backlog ownership, stakeholder management, and technical fluency across the full product lifecycle." />
+<meta name="twitter:image" content="https://jhotz2112.github.io/jeremy-hotz-portfolio/og-image.png" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
   :root {
@@ -44,6 +60,17 @@
   * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; transition: background 0.2s ease, color 0.2s ease; }
+
+  .skip-link {
+    position: absolute; left: 1rem; top: -60px; z-index: 300;
+    background: var(--ink); color: var(--bg); padding: 0.7rem 1.2rem; border-radius: 8px;
+    font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: top 0.2s ease;
+  }
+  .skip-link:focus { top: 1rem; }
+
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 3px solid var(--accent); outline-offset: 2px;
+  }
 
   .scroll-progress {
     position: fixed; top: 0; left: 0; height: 3px; width: 0%;
@@ -99,9 +126,9 @@
 
   .hero-actions { margin-top: 1.5rem; }
   .btn-download {
-    font: inherit; font-size: 0.85rem; font-weight: 600; color: #fff;
+    display: inline-block; font: inherit; font-size: 0.85rem; font-weight: 600; color: #fff;
     background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 999px; padding: 0.55rem 1.2rem; cursor: pointer;
+    border-radius: 999px; padding: 0.55rem 1.2rem; cursor: pointer; text-decoration: none;
     transition: background 0.2s ease, border-color 0.2s ease;
   }
   .btn-download:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
@@ -135,15 +162,17 @@
     font-family: inherit; font-size: 0.7rem; background: var(--card); border: 1px solid var(--border);
     border-radius: 4px; padding: 0.05rem 0.35rem; color: var(--muted);
   }
+  .nav-spacer { visibility: hidden; pointer-events: none; }
   @media (max-width: 640px) {
     nav { flex-direction: column; }
     .nav-links { width: 100%; }
     .nav-utils { width: 100%; justify-content: center; }
+    .nav-spacer { display: none; }
   }
 
   main { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
   .intro { padding: 3rem 0 2.5rem; border-bottom: 1px solid var(--border); }
-  .intro p { font-size: 1.05rem; color: var(--text-soft); max-width: 700px; }
+  .intro p { font-size: 1.05rem; color: var(--text-soft); max-width: 700px; margin-left: auto; margin-right: auto; }
   .intro p + p { margin-top: 1rem; }
   section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
   section:last-of-type { border-bottom: none; }
@@ -152,7 +181,7 @@
     color: var(--ink); border-bottom: 2px solid var(--ink); display: inline-block;
     padding-bottom: 6px; margin-bottom: 1.75rem;
   }
-  .section-sub { font-size: 0.95rem; color: var(--text-soft); max-width: 700px; margin: -1rem 0 1.75rem; }
+  .section-sub { font-size: 0.95rem; color: var(--text-soft); max-width: 700px; margin: -1rem auto 1.75rem; }
 
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.revealed { opacity: 1; transform: translateY(0); }
@@ -209,6 +238,22 @@
     padding: 0.45rem 1rem; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease;
   }
   .work-btn:hover { border-color: var(--accent-light); }
+
+  /* Testimonials */
+  .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+  .testimonial-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.5rem; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .testimonial-card:hover { transform: translateY(-4px); border-color: var(--accent-light); box-shadow: 0 10px 24px rgba(26,31,46,0.08); }
+  .testimonial-quote {
+    margin: 0; padding-left: 1.1rem; border-left: 3px solid var(--accent-light);
+    font-size: 0.95rem; color: var(--text-soft); font-style: italic; line-height: 1.65;
+  }
+  .testimonial-attribution {
+    display: block; margin-top: 1rem; padding-left: 1.1rem;
+    font-size: 0.85rem; font-weight: 600; color: var(--accent); font-style: normal;
+  }
 
   /* Modal (shared by case studies) */
   .modal-overlay {
@@ -360,6 +405,8 @@
 </head>
 <body>
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <header class="hero">
@@ -375,15 +422,20 @@
       <a href="https://www.linkedin.com/in/jeremyhotz/" target="_blank" rel="noopener">linkedin.com/in/jeremyhotz</a>
     </div>
     <div class="hero-actions">
-      <button class="btn-download" id="downloadBtn">Download as PDF</button>
+      <a class="btn-download" href="resume.pdf" download="Jeremy-Hotz-Resume.pdf">Download Resume (PDF)</a>
     </div>
   </div>
 </header>
 
 <nav id="mainNav">
+  <div class="nav-utils nav-spacer" aria-hidden="true">
+    <button class="nav-icon-btn" tabindex="-1"><span>🔎</span><kbd>⌘K</kbd></button>
+    <button class="nav-icon-btn" tabindex="-1">🌙</button>
+  </div>
   <div class="nav-links">
     <a href="#experience">Experience</a>
     <a href="#work">Selected Work</a>
+    <a href="#testimonials">Testimonials</a>
     <a href="#approach">Approach</a>
     <a href="#prioritize">Prioritize</a>
     <a href="#skills">Skills</a>
@@ -396,7 +448,7 @@
   </div>
 </nav>
 
-<main>
+<main id="main-content">
 
   <section class="intro reveal">
     <p>I'm a product manager who can actually build the thing. I started as a developer, writing PHP, Twig, and JavaScript in production CMS environments, before moving into product management, so I speak engineering's language fluently instead of translating through it.</p>
@@ -406,7 +458,7 @@
   <section id="stats" class="reveal">
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-number" data-target="150" data-suffix="">0</div>
+        <div class="stat-number" data-target="150" data-suffix="+">0</div>
         <div class="stat-label">Client Websites Managed</div>
       </div>
       <div class="stat-card">
@@ -516,6 +568,20 @@
     </div>
   </section>
 
+  <section id="testimonials" class="reveal">
+    <h2 class="section-title">Testimonials</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <blockquote class="testimonial-quote">Jeremy is the PM you want on a client-facing initiative when things get complicated. He keeps the backlog honest, translates messy stakeholder asks into something engineering can actually build, and never lets a release go out the door without checking it himself first. I always knew where a project stood when Jeremy was running it.</blockquote>
+        <cite class="testimonial-attribution">TC, Account Director</cite>
+      </div>
+      <div class="testimonial-card">
+        <blockquote class="testimonial-quote">Jeremy can hold his own in a technical conversation, which isn't something I'd say about most PMs I've worked with. It means engineering trusts him faster, and less gets lost in translation between what the business wants and what's actually feasible to build.</blockquote>
+        <cite class="testimonial-attribution">IY, Digital Product Manager</cite>
+      </div>
+    </div>
+  </section>
+
   <section id="approach" class="reveal">
     <h2 class="section-title">Product Management Approach</h2>
     <div class="approach-grid">
@@ -543,7 +609,7 @@
     <p class="section-sub">One tool I use constantly as a PM is an impact versus effort matrix. Drag the cards below and watch how each one gets reclassified. It's a quick way to separate quick wins from work that isn't worth the effort.</p>
     <div class="matrix-wrap">
       <div class="matrix-axis-y">Impact increases toward the top</div>
-      <div class="matrix-grid" id="matrixGrid">
+      <div class="matrix-grid" id="matrixGrid" role="group" aria-label="Impact versus effort matrix. Tab to a card and use arrow keys to move it between quadrants.">
         <div class="matrix-quadrant q-tl">Quick Wins</div>
         <div class="matrix-quadrant q-tr">Major Projects</div>
         <div class="matrix-quadrant q-bl">Fill-Ins</div>
@@ -551,7 +617,7 @@
       </div>
       <div class="matrix-axis-x">Effort increases toward the right</div>
       <div class="matrix-footer">
-        <div id="matrixFeedback">Drag a card to see it reclassified.</div>
+        <div id="matrixFeedback" aria-live="polite">Drag a card to see it reclassified.</div>
         <button class="matrix-reset" id="matrixReset">Reset</button>
       </div>
     </div>
@@ -651,10 +717,10 @@
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <div class="modal-overlay" id="modalOverlay">
-  <div class="modal-box">
+  <div class="modal-box" role="dialog" aria-modal="true" id="modalBox">
     <button class="modal-close" id="modalClose" aria-label="Close">×</button>
     <div class="modal-panel" id="panel-copd">
-      <h3>At-Home COPD Monitoring PWA</h3>
+      <h3 id="panel-copd-title">At-Home COPD Monitoring PWA</h3>
       <div class="modal-org">KoKo PFT LLC, Software Engineer / Product Lead, 02/2022 – 06/2022</div>
       <h4>Problem</h4>
       <p>Patients with COPD typically needed a clinic visit to have their lung function measured. KoKo wanted to move that monitoring into the home, which meant building both a patient experience and a physician experience around a medical device, inside a regulated environment where mistakes carry real consequences.</p>
@@ -666,7 +732,7 @@
       <p>We shipped a functioning medical device product with reliable real-time patient data collection, giving physicians remote visibility into patient lung function without requiring an in-person visit.</p>
     </div>
     <div class="modal-panel" id="panel-sf" hidden>
-      <h3>Ground-Up Destination Websites</h3>
+      <h3 id="panel-sf-title">Ground-Up Destination Websites</h3>
       <div class="modal-org">Miles Partnership, Web Developer, 06/2022 – 10/2023</div>
       <h4>Problem</h4>
       <p>Several destination marketing organizations needed new websites built from the ground up, within a portfolio where Miles Partnership maintains 150+ client sites in Drupal-based CMS environments.</p>
@@ -681,9 +747,9 @@
 </div>
 
 <div class="palette-overlay" id="paletteOverlay">
-  <div class="palette-box">
-    <input type="text" class="palette-input" id="paletteInput" placeholder="Jump to a section or run a command..." />
-    <div class="palette-list" id="paletteList"></div>
+  <div class="palette-box" role="dialog" aria-modal="true" aria-label="Quick jump">
+    <input type="text" class="palette-input" id="paletteInput" placeholder="Jump to a section or run a command..." role="combobox" aria-expanded="true" aria-controls="paletteList" aria-autocomplete="list" />
+    <div class="palette-list" id="paletteList" role="listbox"></div>
   </div>
 </div>
 
@@ -703,11 +769,6 @@
   themeToggle.addEventListener('click', function () {
     var current = document.documentElement.getAttribute('data-theme');
     applyTheme(current === 'dark' ? 'light' : 'dark');
-  });
-
-  // Download as PDF (uses the existing print stylesheet)
-  document.getElementById('downloadBtn').addEventListener('click', function () {
-    window.print();
   });
 
   // Accordion for job entries (JS-computed height so long content never clips)
@@ -736,7 +797,7 @@
   function animateCount(el) {
     var target = parseFloat(el.dataset.target);
     var suffix = el.dataset.suffix || '';
-    var duration = 1300;
+    var duration = 3500;
     var start = null;
     function step(ts) {
       if (!start) start = ts;
@@ -802,10 +863,12 @@
 
   // Case study modal
   var modalOverlay = document.getElementById('modalOverlay');
+  var modalBox = document.getElementById('modalBox');
   var modalClose = document.getElementById('modalClose');
   var lastFocused = null;
   function openModal(targetId) {
     document.querySelectorAll('.modal-panel').forEach(function (p) { p.hidden = (p.id !== targetId); });
+    modalBox.setAttribute('aria-labelledby', targetId + '-title');
     modalOverlay.classList.add('open');
     document.body.style.overflow = 'hidden';
     lastFocused = document.activeElement;
@@ -824,7 +887,15 @@
     if (e.target === modalOverlay) closeModal();
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+    if (e.key === 'Escape' && modalOverlay.classList.contains('open')) { closeModal(); return; }
+    if (e.key === 'Tab' && modalOverlay.classList.contains('open')) {
+      var focusable = modalBox.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+      var visible = Array.prototype.filter.call(focusable, function (el) { return el.offsetParent !== null; });
+      if (visible.length === 0) return;
+      var first = visible[0], last = visible[visible.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
 
   // Impact vs effort prioritization matrix
@@ -850,18 +921,33 @@
       return { cls: 'thankless', label: 'Reconsider, worth a second look before committing the effort' };
     }
 
+    function placeChip(chip, label, xPct, yPct) {
+      xPct = Math.min(Math.max(xPct, 2), 98);
+      yPct = Math.min(Math.max(yPct, 2), 98);
+      chip.style.left = xPct + '%';
+      chip.style.top = yPct + '%';
+      chip.dataset.x = xPct;
+      chip.dataset.y = yPct;
+      var result = classify(xPct, yPct);
+      chip.classList.remove('quick-win', 'major', 'fill-in', 'thankless');
+      chip.classList.add(result.cls);
+      feedback.textContent = label + ': ' + result.label;
+      return result;
+    }
+
     function build() {
       grid.querySelectorAll('.matrix-chip').forEach(function (c) { c.remove(); });
       chips = chipData.map(function (data) {
         var chip = document.createElement('div');
         chip.className = 'matrix-chip';
         chip.textContent = data.label;
-        chip.style.left = data.x + '%';
-        chip.style.top = data.y + '%';
-        var result = classify(data.x, data.y);
-        chip.classList.add(result.cls);
+        chip.tabIndex = 0;
+        chip.setAttribute('role', 'button');
+        chip.setAttribute('aria-label', data.label + '. Draggable card, use arrow keys to move between quadrants.');
         grid.appendChild(chip);
+        placeChip(chip, data.label, data.x, data.y);
         attachDrag(chip, data.label);
+        attachKeyboard(chip, data.label);
         return chip;
       });
     }
@@ -871,14 +957,9 @@
         chip.setPointerCapture(e.pointerId);
         var rect = grid.getBoundingClientRect();
         function move(ev) {
-          var xPct = Math.min(Math.max((ev.clientX - rect.left) / rect.width * 100, 2), 98);
-          var yPct = Math.min(Math.max((ev.clientY - rect.top) / rect.height * 100, 2), 98);
-          chip.style.left = xPct + '%';
-          chip.style.top = yPct + '%';
-          var result = classify(xPct, yPct);
-          chip.classList.remove('quick-win', 'major', 'fill-in', 'thankless');
-          chip.classList.add(result.cls);
-          feedback.textContent = label + ': ' + result.label;
+          var xPct = (ev.clientX - rect.left) / rect.width * 100;
+          var yPct = (ev.clientY - rect.top) / rect.height * 100;
+          placeChip(chip, label, xPct, yPct);
         }
         function up() {
           chip.removeEventListener('pointermove', move);
@@ -886,6 +967,18 @@
         }
         chip.addEventListener('pointermove', move);
         chip.addEventListener('pointerup', up);
+      });
+    }
+
+    function attachKeyboard(chip, label) {
+      chip.addEventListener('keydown', function (e) {
+        var step = 6;
+        var x = parseFloat(chip.dataset.x);
+        var y = parseFloat(chip.dataset.y);
+        if (e.key === 'ArrowRight') { e.preventDefault(); placeChip(chip, label, x + step, y); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); placeChip(chip, label, x - step, y); }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); placeChip(chip, label, x, y + step); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); placeChip(chip, label, x, y - step); }
       });
     }
 
@@ -909,12 +1002,18 @@
     var items = [
       { label: 'Experience', hint: 'section', action: function () { scrollToId('experience'); } },
       { label: 'Selected Work', hint: 'section', action: function () { scrollToId('work'); } },
+      { label: 'Testimonials', hint: 'section', action: function () { scrollToId('testimonials'); } },
       { label: 'PM Approach', hint: 'section', action: function () { scrollToId('approach'); } },
       { label: 'Prioritization Tool', hint: 'section', action: function () { scrollToId('prioritize'); } },
       { label: 'Skills', hint: 'section', action: function () { scrollToId('skills'); } },
       { label: 'Leadership & Volunteering', hint: 'section', action: function () { scrollToId('leadership'); } },
       { label: 'Education', hint: 'section', action: function () { scrollToId('education'); } },
-      { label: 'Download resume as PDF', hint: 'command', action: function () { window.print(); } },
+      { label: 'Download resume as PDF', hint: 'command', action: function () {
+        var a = document.createElement('a');
+        a.href = 'resume.pdf';
+        a.download = 'Jeremy-Hotz-Resume.pdf';
+        a.click();
+      } },
       { label: 'Toggle dark mode', hint: 'command', action: function () { themeToggle.click(); } }
     ];
 
@@ -940,11 +1039,16 @@
       filtered.forEach(function (item, i) {
         var row = document.createElement('div');
         row.className = 'palette-item' + (i === activeIndex ? ' active' : '');
+        row.id = 'palette-item-' + i;
+        row.setAttribute('role', 'option');
+        row.setAttribute('aria-selected', i === activeIndex ? 'true' : 'false');
         row.innerHTML = '<span>' + item.label + '</span><span class="hint">' + item.hint + '</span>';
         row.addEventListener('mouseenter', function () { activeIndex = i; render(); });
         row.addEventListener('click', function () { select(item); });
         list.appendChild(row);
       });
+      var activeRow = filtered.length ? document.getElementById('palette-item-' + activeIndex) : null;
+      input.setAttribute('aria-activedescendant', activeRow ? activeRow.id : '');
     }
 
     function select(item) {
