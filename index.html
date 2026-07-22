@@ -10,6 +10,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
   :root {
     --ink: #1a1f2e;
+    --hero-bg: #1a1f2e;
     --accent: #4a6fa5;
     --accent-light: #7eb8f7;
     --accent-soft: #eef3fa;
@@ -18,10 +19,31 @@
     --muted: #666;
     --border: #e6e5e1;
     --good: #3fb27f;
+    --bad: #c1554a;
+    --gold: #b8862f;
+    --text: #222;
+    --text-soft: #333;
+    --overlay: rgba(15,18,26,0.55);
+  }
+  :root[data-theme="dark"] {
+    --ink: #eef1f7;
+    --accent: #8fbdf5;
+    --accent-light: #b7d7fb;
+    --accent-soft: rgba(143,189,245,0.14);
+    --bg: #12151d;
+    --card: #1c2029;
+    --muted: #9aa2b3;
+    --border: #2c3140;
+    --good: #4fd39a;
+    --bad: #e07a70;
+    --gold: #d6a94f;
+    --text: #e8e9ee;
+    --text-soft: #cdd0da;
+    --overlay: rgba(0,0,0,0.65);
   }
   * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', sans-serif; color: #222; background: var(--bg); line-height: 1.6; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; transition: background 0.2s ease, color 0.2s ease; }
 
   .scroll-progress {
     position: fixed; top: 0; left: 0; height: 3px; width: 0%;
@@ -30,7 +52,7 @@
   }
 
   header.hero {
-    background: var(--ink);
+    background: var(--hero-bg);
     color: #fff;
     padding: 4rem 1.5rem 3.5rem;
     text-align: center;
@@ -75,25 +97,48 @@
   .hero-contact a:hover { text-decoration: underline; }
   .hero-contact span { color: #c2c9d6; }
 
+  .hero-actions { margin-top: 1.5rem; }
+  .btn-download {
+    font: inherit; font-size: 0.85rem; font-weight: 600; color: #fff;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px; padding: 0.55rem 1.2rem; cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-download:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+
   nav {
     position: sticky; top: 0; z-index: 10;
-    background: #fff; border-bottom: 1px solid var(--border);
-    display: flex; justify-content: center; gap: 2rem;
-    padding: 0.9rem 1rem; flex-wrap: wrap;
-    transition: box-shadow 0.25s ease;
+    background: var(--card); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.9rem 1.25rem; flex-wrap: wrap;
+    transition: box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease;
   }
   nav.scrolled { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .nav-links { display: flex; gap: 1.75rem; flex-wrap: wrap; flex: 1; justify-content: center; }
   nav a {
     color: var(--ink); text-decoration: none; font-size: 0.85rem; font-weight: 600;
     letter-spacing: 0.04em; text-transform: uppercase; padding-bottom: 4px;
     border-bottom: 2px solid transparent; transition: color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
   }
   nav a:hover { color: var(--accent); }
   nav a.active { color: var(--accent); border-color: var(--accent); }
+  .nav-utils { display: flex; align-items: center; gap: 0.5rem; }
+  .nav-icon-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--accent-soft); border: 1px solid var(--border); color: var(--ink);
+    border-radius: 8px; padding: 0.4rem 0.6rem; cursor: pointer; font: inherit; font-size: 0.8rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .nav-icon-btn:hover { border-color: var(--accent-light); }
+  .nav-icon-btn kbd {
+    font-family: inherit; font-size: 0.7rem; background: var(--card); border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.05rem 0.35rem; color: var(--muted);
+  }
 
   main { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
   .intro { padding: 3rem 0 2.5rem; border-bottom: 1px solid var(--border); }
-  .intro p { font-size: 1.05rem; color: #333; max-width: 700px; }
+  .intro p { font-size: 1.05rem; color: var(--text-soft); max-width: 700px; }
   .intro p + p { margin-top: 1rem; }
   section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
   section:last-of-type { border-bottom: none; }
@@ -102,10 +147,21 @@
     color: var(--ink); border-bottom: 2px solid var(--ink); display: inline-block;
     padding-bottom: 6px; margin-bottom: 1.75rem;
   }
+  .section-sub { font-size: 0.95rem; color: var(--text-soft); max-width: 700px; margin: -1rem 0 1.75rem; }
 
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.revealed { opacity: 1; transform: translateY(0); }
 
+  /* Stats */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.25rem; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.5rem 1.25rem; text-align: center;
+  }
+  .stat-number { font-size: 2.1rem; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.35rem; }
+
+  /* Experience accordion */
   .job {
     margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 10px;
     background: var(--card); overflow: hidden; transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -127,10 +183,52 @@
   .job-dates { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
   .job-bullets-wrap { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
   ul.bullets { list-style: none; padding: 0 1.25rem 1.15rem; }
-  ul.bullets li { font-size: 0.95rem; color: #333; padding-left: 1.2em; position: relative; margin-bottom: 0.4rem; }
+  ul.bullets li { font-size: 0.95rem; color: var(--text-soft); padding-left: 1.2em; position: relative; margin-bottom: 0.4rem; }
   ul.bullets li::before { content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
   .job-hint { font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 0.75rem; }
 
+  /* Selected work / case studies */
+  .work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+  .work-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 0.75rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .work-card:hover { transform: translateY(-4px); border-color: var(--accent-light); box-shadow: 0 10px 24px rgba(26,31,46,0.08); }
+  .work-title { font-size: 1.05rem; font-weight: 600; color: var(--ink); }
+  .work-org { font-size: 0.85rem; color: var(--accent); }
+  .work-summary { font-size: 0.9rem; color: var(--text-soft); flex: 1; }
+  .work-btn {
+    align-self: flex-start; font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); border: 1px solid var(--border); border-radius: 999px;
+    padding: 0.45rem 1rem; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .work-btn:hover { border-color: var(--accent-light); }
+
+  /* Modal (shared by case studies) */
+  .modal-overlay {
+    position: fixed; inset: 0; background: var(--overlay); z-index: 200;
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 6vh 1.25rem; overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--card); border-radius: 14px; max-width: 560px; width: 100%;
+    padding: 2rem; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; border-radius: 50%;
+    border: none; background: var(--accent-soft); color: var(--ink); font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { background: var(--border); }
+  .modal-panel h3 { font-size: 1.2rem; color: var(--ink); margin-bottom: 0.2rem; }
+  .modal-panel .modal-org { font-size: 0.85rem; color: var(--accent); margin-bottom: 1.25rem; }
+  .modal-panel h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 1.1rem 0 0.35rem; }
+  .modal-panel h4:first-of-type { margin-top: 0; }
+  .modal-panel p { font-size: 0.92rem; color: var(--text-soft); }
+
+  /* Approach + prioritization tool */
   .approach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
   .approach-card {
     background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem;
@@ -140,10 +238,58 @@
     transform: translateY(-4px); border-color: var(--accent-light);
     box-shadow: 0 10px 24px rgba(26,31,46,0.08);
   }
-  .approach-card p { font-size: 0.9rem; color: #333; }
+  .approach-card p { font-size: 0.9rem; color: var(--text-soft); }
   .approach-tools { margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted); }
   .approach-tools strong { color: var(--ink); }
 
+  .matrix-wrap { max-width: 480px; margin: 0 auto; }
+  .matrix-grid {
+    position: relative; width: 100%; aspect-ratio: 1 / 1;
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+    background: var(--card); touch-action: none;
+  }
+  .matrix-quadrant {
+    position: absolute; width: 50%; height: 50%;
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--muted); padding: 0.6rem; pointer-events: none;
+  }
+  .matrix-quadrant.q-tl { left: 0; top: 0; background: rgba(63,178,127,0.07); }
+  .matrix-quadrant.q-tr { right: 0; top: 0; background: rgba(74,111,165,0.06); }
+  .matrix-quadrant.q-bl { left: 0; bottom: 0; background: rgba(184,134,47,0.06); }
+  .matrix-quadrant.q-br { right: 0; bottom: 0; background: rgba(193,85,74,0.06); }
+  .matrix-grid::before, .matrix-grid::after {
+    content: ""; position: absolute; background: var(--border);
+  }
+  .matrix-grid::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+  .matrix-grid::after { top: 50%; left: 0; right: 0; height: 1px; }
+  .matrix-chip {
+    position: absolute; transform: translate(-50%, -50%);
+    background: var(--card); border: 2px solid var(--border); border-radius: 8px;
+    padding: 0.45rem 0.75rem; font-size: 0.78rem; font-weight: 600; color: var(--text);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: grab; user-select: none;
+    touch-action: none; transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    max-width: 140px; text-align: center; z-index: 2;
+  }
+  .matrix-chip:active { cursor: grabbing; box-shadow: 0 10px 22px rgba(0,0,0,0.18); z-index: 3; }
+  .matrix-chip.quick-win { border-color: var(--good); }
+  .matrix-chip.major { border-color: var(--accent); }
+  .matrix-chip.fill-in { border-color: var(--gold); }
+  .matrix-chip.thankless { border-color: var(--bad); }
+  .matrix-axis-x, .matrix-axis-y {
+    font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 0.5rem;
+  }
+  .matrix-footer {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    margin-top: 1rem; flex-wrap: wrap;
+  }
+  #matrixFeedback { font-size: 0.85rem; color: var(--text-soft); min-height: 1.3em; }
+  .matrix-reset {
+    font: inherit; font-size: 0.78rem; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); border: 1px solid var(--border); border-radius: 999px;
+    padding: 0.4rem 0.9rem; cursor: pointer;
+  }
+
+  /* Skills */
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
   .skill-group-label { font-size: 0.8rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
   .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
@@ -166,7 +312,7 @@
   .back-to-top {
     position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 20;
     width: 42px; height: 42px; border-radius: 50%; border: none;
-    background: var(--ink); color: #fff; font-size: 1.1rem; cursor: pointer;
+    background: var(--ink); color: var(--bg); font-size: 1.1rem; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     opacity: 0; pointer-events: none; transform: translateY(10px);
     transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
@@ -175,9 +321,33 @@
   .back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
   .back-to-top:hover { background: var(--accent); }
 
+  /* Command palette */
+  .palette-overlay {
+    position: fixed; inset: 0; background: var(--overlay); z-index: 250;
+    display: none; align-items: flex-start; justify-content: center; padding-top: 12vh;
+  }
+  .palette-overlay.open { display: flex; }
+  .palette-box {
+    background: var(--card); width: min(500px, 90vw); border-radius: 12px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+  .palette-input {
+    width: 100%; border: none; padding: 1rem 1.25rem; font: inherit; font-size: 1rem;
+    background: var(--card); color: var(--text); border-bottom: 1px solid var(--border);
+  }
+  .palette-input:focus { outline: none; }
+  .palette-list { max-height: 320px; overflow-y: auto; }
+  .palette-item {
+    padding: 0.8rem 1.25rem; font-size: 0.9rem; color: var(--text); cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .palette-item.active, .palette-item:hover { background: var(--accent-soft); }
+  .palette-item span.hint { font-size: 0.72rem; color: var(--muted); }
+  .palette-empty { padding: 1rem 1.25rem; font-size: 0.85rem; color: var(--muted); }
+
   @media print {
-    nav, .back-to-top, .scroll-progress { display: none; }
-    body { background: #fff; }
+    nav, .back-to-top, .scroll-progress, .btn-download, .modal-overlay, .palette-overlay, .matrix-reset { display: none !important; }
+    body { background: #fff; color: #000; }
     .reveal { opacity: 1 !important; transform: none !important; }
     .job-bullets-wrap { max-height: none !important; }
   }
@@ -199,15 +369,26 @@
       <a href="https://github.com/jhotz2112" target="_blank" rel="noopener">github.com/jhotz2112</a>
       <a href="https://www.linkedin.com/in/jeremyhotz/" target="_blank" rel="noopener">linkedin.com/in/jeremyhotz</a>
     </div>
+    <div class="hero-actions">
+      <button class="btn-download" id="downloadBtn">Download as PDF</button>
+    </div>
   </div>
 </header>
 
 <nav id="mainNav">
-  <a href="#experience">Experience</a>
-  <a href="#approach">PM Approach</a>
-  <a href="#skills">Skills</a>
-  <a href="#leadership">Leadership</a>
-  <a href="#education">Education</a>
+  <div class="nav-links">
+    <a href="#experience">Experience</a>
+    <a href="#work">Selected Work</a>
+    <a href="#approach">Approach</a>
+    <a href="#prioritize">Prioritize</a>
+    <a href="#skills">Skills</a>
+    <a href="#leadership">Leadership</a>
+    <a href="#education">Education</a>
+  </div>
+  <div class="nav-utils">
+    <button class="nav-icon-btn" id="paletteBtn" aria-label="Open quick jump"><span>🔎</span><kbd>⌘K</kbd></button>
+    <button class="nav-icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+  </div>
 </nav>
 
 <main>
@@ -215,6 +396,27 @@
   <section class="intro reveal">
     <p>I'm a product manager who can actually build the thing. I started as a developer, writing PHP, Twig, and JavaScript in production CMS environments, before moving into product management, so I speak engineering's language fluently instead of translating through it.</p>
     <p>That background means fewer handoffs get lost in translation: I can read a pull request, reason about technical trade-offs alongside an engineering team, and still own the roadmap, stakeholder relationships, and business case that make a product succeed.</p>
+  </section>
+
+  <section id="stats" class="reveal">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" data-target="150" data-suffix="">0</div>
+        <div class="stat-label">Client Websites Managed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="2" data-suffix="">0</div>
+        <div class="stat-label">Ground-Up Website Builds</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="4" data-suffix="+">0</div>
+        <div class="stat-label">Years in Software &amp; Product</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="1" data-suffix="">0</div>
+        <div class="stat-label">Regulated Medical Device Shipped</div>
+      </div>
+    </div>
   </section>
 
   <section id="experience" class="reveal">
@@ -295,6 +497,24 @@
     <div class="job-hint">Click a role to expand the details</div>
   </section>
 
+  <section id="work" class="reveal">
+    <h2 class="section-title">Selected Work</h2>
+    <div class="work-grid">
+      <div class="work-card">
+        <div class="work-title">At-Home COPD Monitoring PWA</div>
+        <div class="work-org">KoKo PFT LLC, Product Lead</div>
+        <p class="work-summary">A patient-facing and physician-facing app that connects a spirometer to a browser over USB, so patients could be monitored at home instead of in a clinic.</p>
+        <button class="work-btn" data-target="panel-copd">View case study</button>
+      </div>
+      <div class="work-card">
+        <div class="work-title">Ground-Up Destination Websites</div>
+        <div class="work-org">Miles Partnership, Web Developer</div>
+        <p class="work-summary">Two tourism board websites built from scratch, San Francisco Travel and Savannah, spanning discovery through launch.</p>
+        <button class="work-btn" data-target="panel-sf">View case study</button>
+      </div>
+    </div>
+  </section>
+
   <section id="approach" class="reveal">
     <h2 class="section-title">Product Management Approach</h2>
     <div class="approach-grid">
@@ -315,6 +535,25 @@
       </div>
     </div>
     <div class="approach-tools"><strong>Methods &amp; Tools:</strong> Agile, Scrum, Kanban, Waterfall, Jira, Confluence, Productboard, Figma, Wrike, SQL, WCAG 2.2 AA, UsableNet</div>
+  </section>
+
+  <section id="prioritize" class="reveal">
+    <h2 class="section-title">Prioritization in Action</h2>
+    <p class="section-sub">One tool I use constantly as a PM is an impact versus effort matrix. Drag the cards below and watch how each one gets reclassified. It's a quick way to separate quick wins from work that isn't worth the effort.</p>
+    <div class="matrix-wrap">
+      <div class="matrix-axis-y">Impact increases toward the top</div>
+      <div class="matrix-grid" id="matrixGrid">
+        <div class="matrix-quadrant q-tl">Quick Wins</div>
+        <div class="matrix-quadrant q-tr">Major Projects</div>
+        <div class="matrix-quadrant q-bl">Fill-Ins</div>
+        <div class="matrix-quadrant q-br">Thankless Tasks</div>
+      </div>
+      <div class="matrix-axis-x">Effort increases toward the right</div>
+      <div class="matrix-footer">
+        <div id="matrixFeedback">Drag a card to see it reclassified.</div>
+        <button class="matrix-reset" id="matrixReset">Reset</button>
+      </div>
+    </div>
   </section>
 
   <section id="skills" class="reveal">
@@ -410,7 +649,66 @@
 
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <div class="modal-panel" id="panel-copd">
+      <h3>At-Home COPD Monitoring PWA</h3>
+      <div class="modal-org">KoKo PFT LLC, Software Engineer / Product Lead, 02/2022 – 06/2022</div>
+      <h4>Problem</h4>
+      <p>Patients with COPD typically needed a clinic visit to have their lung function measured. KoKo wanted to move that monitoring into the home, which meant building both a patient experience and a physician experience around a medical device, inside a regulated environment where mistakes carry real consequences.</p>
+      <h4>My Role</h4>
+      <p>I served as product lead, owning discovery, scoping, and backlog management in Jira. I wrote detailed product requirements and acceptance criteria, then coordinated sprint execution across a development team and a firmware engineer.</p>
+      <h4>Approach</h4>
+      <p>I architected the integration between the Google Chrome WebUSB API and a physical spirometer device, working with the firmware engineer to update the device so it could talk to a browser in real time. I also did hands-on testing and validation in staging, reviewing every acceptance test before release.</p>
+      <h4>Outcome</h4>
+      <p>We shipped a functioning medical device product with reliable real-time patient data collection, giving physicians remote visibility into patient lung function without requiring an in-person visit.</p>
+    </div>
+    <div class="modal-panel" id="panel-sf" hidden>
+      <h3>Ground-Up Destination Websites</h3>
+      <div class="modal-org">Miles Partnership, Web Developer, 06/2022 – 10/2023</div>
+      <h4>Problem</h4>
+      <p>San Francisco Travel and Savannah both needed new destination marketing websites built from the ground up, supporting a portfolio where Miles Partnership maintains 150+ client sites in Drupal-based CMS environments.</p>
+      <h4>My Role</h4>
+      <p>I contributed as a developer across both builds, working through discovery, wireframing, architecture, and feature development alongside interactive producers, project managers, and UX designers.</p>
+      <h4>Approach</h4>
+      <p>I built custom features using PHP, Twig templating, CSS, and JavaScript within Drupal, and integrated third-party services and data sources to support each client's marketing measurement and business intelligence goals.</p>
+      <h4>Outcome</h4>
+      <p>Both destinations launched with accessible, data-driven websites built to support visitation and engagement goals, part of a broader portfolio of 150+ client sites I helped build and maintain.</p>
+    </div>
+  </div>
+</div>
+
+<div class="palette-overlay" id="paletteOverlay">
+  <div class="palette-box">
+    <input type="text" class="palette-input" id="paletteInput" placeholder="Jump to a section or run a command..." />
+    <div class="palette-list" id="paletteList"></div>
+  </div>
+</div>
+
 <script>
+  // Theme toggle (persisted, defaults to system preference)
+  var themeToggle = document.getElementById('themeToggle');
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+    try { localStorage.setItem('jh-theme', theme); } catch (e) {}
+  }
+  (function initTheme() {
+    var stored = null;
+    try { stored = localStorage.getItem('jh-theme'); } catch (e) {}
+    applyTheme(stored || 'light');
+  })();
+  themeToggle.addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // Download as PDF (uses the existing print stylesheet)
+  document.getElementById('downloadBtn').addEventListener('click', function () {
+    window.print();
+  });
+
   // Accordion for job entries (JS-computed height so long content never clips)
   function setJobHeight(job) {
     var wrap = job.querySelector('.job-bullets-wrap');
@@ -433,12 +731,32 @@
     });
   });
 
-  // Scroll reveal
+  // Stat counters
+  function animateCount(el) {
+    var target = parseFloat(el.dataset.target);
+    var suffix = el.dataset.suffix || '';
+    var duration = 1300;
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Scroll reveal (also triggers stat counters when the stats section appears)
   var revealEls = document.querySelectorAll('.reveal');
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         entry.target.classList.add('revealed');
+        if (entry.target.id === 'stats') {
+          entry.target.querySelectorAll('.stat-number').forEach(animateCount);
+        }
         observer.unobserve(entry.target);
       }
     });
@@ -479,6 +797,209 @@
 
   backToTop.addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Case study modal
+  var modalOverlay = document.getElementById('modalOverlay');
+  var modalClose = document.getElementById('modalClose');
+  var lastFocused = null;
+  function openModal(targetId) {
+    document.querySelectorAll('.modal-panel').forEach(function (p) { p.hidden = (p.id !== targetId); });
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    lastFocused = document.activeElement;
+    modalClose.focus();
+  }
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+  document.querySelectorAll('.work-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { openModal(btn.dataset.target); });
+  });
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', function (e) {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+  });
+
+  // Impact vs effort prioritization matrix
+  (function () {
+    var grid = document.getElementById('matrixGrid');
+    var feedback = document.getElementById('matrixFeedback');
+    var resetBtn = document.getElementById('matrixReset');
+    var chipData = [
+      { label: 'Fix critical checkout bug', x: 22, y: 20 },
+      { label: 'Rebuild onboarding flow', x: 72, y: 18 },
+      { label: 'Add dark mode', x: 25, y: 68 },
+      { label: 'Migrate legacy CMS', x: 78, y: 75 },
+      { label: 'Automate release notes', x: 55, y: 45 }
+    ];
+    var chips = [];
+
+    function classify(xPct, yPct) {
+      var highImpact = yPct < 50;
+      var highEffort = xPct >= 50;
+      if (highImpact && !highEffort) return { cls: 'quick-win', label: 'Quick Win, do this first' };
+      if (highImpact && highEffort) return { cls: 'major', label: 'Major Project, worth the investment' };
+      if (!highImpact && !highEffort) return { cls: 'fill-in', label: 'Fill-In, nice to have' };
+      return { cls: 'thankless', label: "Thankless Task, question why it's on the list" };
+    }
+
+    function build() {
+      grid.querySelectorAll('.matrix-chip').forEach(function (c) { c.remove(); });
+      chips = chipData.map(function (data) {
+        var chip = document.createElement('div');
+        chip.className = 'matrix-chip';
+        chip.textContent = data.label;
+        chip.style.left = data.x + '%';
+        chip.style.top = data.y + '%';
+        var result = classify(data.x, data.y);
+        chip.classList.add(result.cls);
+        grid.appendChild(chip);
+        attachDrag(chip, data.label);
+        return chip;
+      });
+    }
+
+    function attachDrag(chip, label) {
+      chip.addEventListener('pointerdown', function (e) {
+        chip.setPointerCapture(e.pointerId);
+        var rect = grid.getBoundingClientRect();
+        function move(ev) {
+          var xPct = Math.min(Math.max((ev.clientX - rect.left) / rect.width * 100, 2), 98);
+          var yPct = Math.min(Math.max((ev.clientY - rect.top) / rect.height * 100, 2), 98);
+          chip.style.left = xPct + '%';
+          chip.style.top = yPct + '%';
+          var result = classify(xPct, yPct);
+          chip.classList.remove('quick-win', 'major', 'fill-in', 'thankless');
+          chip.classList.add(result.cls);
+          feedback.textContent = label + ': ' + result.label;
+        }
+        function up() {
+          chip.removeEventListener('pointermove', move);
+          chip.removeEventListener('pointerup', up);
+        }
+        chip.addEventListener('pointermove', move);
+        chip.addEventListener('pointerup', up);
+      });
+    }
+
+    resetBtn.addEventListener('click', function () {
+      build();
+      feedback.textContent = 'Drag a card to see it reclassified.';
+    });
+
+    build();
+  })();
+
+  // Command palette (Ctrl/Cmd+K)
+  (function () {
+    var overlay = document.getElementById('paletteOverlay');
+    var input = document.getElementById('paletteInput');
+    var list = document.getElementById('paletteList');
+    var openBtn = document.getElementById('paletteBtn');
+    var activeIndex = 0;
+    var lastFocusedEl = null;
+
+    var items = [
+      { label: 'Experience', hint: 'section', action: function () { scrollToId('experience'); } },
+      { label: 'Selected Work', hint: 'section', action: function () { scrollToId('work'); } },
+      { label: 'PM Approach', hint: 'section', action: function () { scrollToId('approach'); } },
+      { label: 'Prioritization Tool', hint: 'section', action: function () { scrollToId('prioritize'); } },
+      { label: 'Skills', hint: 'section', action: function () { scrollToId('skills'); } },
+      { label: 'Leadership & Volunteering', hint: 'section', action: function () { scrollToId('leadership'); } },
+      { label: 'Education', hint: 'section', action: function () { scrollToId('education'); } },
+      { label: 'Download resume as PDF', hint: 'command', action: function () { window.print(); } },
+      { label: 'Toggle dark mode', hint: 'command', action: function () { themeToggle.click(); } }
+    ];
+
+    function scrollToId(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function render() {
+      var query = input.value.trim().toLowerCase();
+      var filtered = items.filter(function (item) {
+        return item.label.toLowerCase().indexOf(query) !== -1;
+      });
+      activeIndex = Math.min(activeIndex, Math.max(filtered.length - 1, 0));
+      list.innerHTML = '';
+      if (filtered.length === 0) {
+        var empty = document.createElement('div');
+        empty.className = 'palette-empty';
+        empty.textContent = 'No matches.';
+        list.appendChild(empty);
+        return;
+      }
+      filtered.forEach(function (item, i) {
+        var row = document.createElement('div');
+        row.className = 'palette-item' + (i === activeIndex ? ' active' : '');
+        row.innerHTML = '<span>' + item.label + '</span><span class="hint">' + item.hint + '</span>';
+        row.addEventListener('mouseenter', function () { activeIndex = i; render(); });
+        row.addEventListener('click', function () { select(item); });
+        list.appendChild(row);
+      });
+    }
+
+    function select(item) {
+      item.action();
+      closePalette();
+    }
+
+    function currentFiltered() {
+      var query = input.value.trim().toLowerCase();
+      return items.filter(function (item) { return item.label.toLowerCase().indexOf(query) !== -1; });
+    }
+
+    function openPalette() {
+      lastFocusedEl = document.activeElement;
+      overlay.classList.add('open');
+      input.value = '';
+      activeIndex = 0;
+      render();
+      input.focus();
+    }
+    function closePalette() {
+      overlay.classList.remove('open');
+      if (lastFocusedEl) lastFocusedEl.focus();
+    }
+
+    openBtn.addEventListener('click', openPalette);
+    document.addEventListener('keydown', function (e) {
+      var metaK = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k';
+      if (metaK) {
+        e.preventDefault();
+        overlay.classList.contains('open') ? closePalette() : openPalette();
+        return;
+      }
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape') { closePalette(); return; }
+      var filtered = currentFiltered();
+      if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(activeIndex + 1, filtered.length - 1); render(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); activeIndex = Math.max(activeIndex - 1, 0); render(); }
+      if (e.key === 'Enter') { e.preventDefault(); if (filtered[activeIndex]) select(filtered[activeIndex]); }
+    });
+    input.addEventListener('input', function () { activeIndex = 0; render(); });
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closePalette(); });
+  })();
+
+  // Make sure printing always shows a fully expanded, revealed, light page
+  window.addEventListener('beforeprint', function () {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('revealed'); });
+    document.querySelectorAll('.stat-number').forEach(function (el) {
+      el.textContent = el.dataset.target + (el.dataset.suffix || '');
+    });
+    allJobs.forEach(function (job) {
+      job.classList.add('open');
+      setJobHeight(job);
+    });
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.getElementById('paletteOverlay').classList.remove('open');
   });
 </script>
 
